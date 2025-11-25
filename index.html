@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PublicListings | Bundaberg Real Estate</title>
+    <title>PublicListings | Bundaberg & Wide Bay Rural Real Estate</title>
     
     <!-- Tailwind CSS (Standalone) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -35,6 +35,257 @@
                     backgroundImage: {
                         'paper-texture': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
                     }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #fcfbf7; }
+        /* Simple utility for hiding views */
+        .view-section { display: none; animation-duration: 0.5s; }
+        .view-section.active { display: block; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #fcfbf7; }
+        ::-webkit-scrollbar-thumb { background: #cc9f3f; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b01e1e; }
+    </style>
+</head>
+<body class="font-sans text-darkWood bg-paper-texture antialiased flex flex-col min-h-screen">
+
+    <!-- MATERNITY BANNER -->
+    <div class="bg-wheatGold text-soil px-4 py-3 text-center font-serif text-sm md:text-base border-b-4 border-barnRed relative z-50 shadow-md">
+        <span class="font-bold mr-2">🔔 OFFICE UPDATE:</span>
+        Principal Sarah Jenkins is on maternity leave (Nov 13 - Jan 1). 
+        <span class="hidden md:inline"> Phone enquiries paused. Emails monitored nightly for urgent matters.</span>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="sticky top-0 z-40 bg-parchment/95 border-b border-stone-200 backdrop-blur-sm shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-24 items-center">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer group" onclick="router('home')">
+                    <div class="w-12 h-12 bg-barnRed rounded-sm flex items-center justify-center text-white font-serif text-2xl mr-3 shadow-sm group-hover:bg-red-800 transition-colors">P</div>
+                    <div>
+                        <h1 class="font-serif text-2xl font-bold text-barnRed leading-none tracking-tight">PublicListings</h1>
+                        <p class="text-[10px] text-stone-500 tracking-[0.25em] uppercase font-bold mt-1">Bundaberg Rural Agents</p>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-10" id="desktop-menu">
+                    <button onclick="router('home')" class="nav-link text-xs uppercase tracking-[0.15em] font-bold text-barnRed border-b-2 border-barnRed py-2">Home</button>
+                    <button onclick="router('buy')" class="nav-link text-xs uppercase tracking-[0.15em] font-semibold text-stone-600 hover:text-barnRed transition-colors py-2">Buy</button>
+                    <button onclick="router('sell')" class="nav-link text-xs uppercase tracking-[0.15em] font-semibold text-stone-600 hover:text-barnRed transition-colors py-2">Sell</button>
+                    <button onclick="router('experts')" class="nav-link text-xs uppercase tracking-[0.15em] font-semibold text-stone-600 hover:text-barnRed transition-colors py-2">Team</button>
+                    <button onclick="router('insights')" class="nav-link text-xs uppercase tracking-[0.15em] font-semibold text-stone-600 hover:text-barnRed transition-colors py-2">Insights</button>
+                    <button onclick="openModal()" class="bg-barnRed text-white px-8 py-3 rounded-sm uppercase text-xs font-bold tracking-widest hover:bg-red-800 transition-all shadow-sm transform hover:-translate-y-0.5">
+                        Enquire
+                    </button>
+                </div>
+
+                <!-- Mobile Hamburger -->
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-stone-600 p-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200 absolute w-full shadow-xl z-50">
+            <div class="pt-2 pb-4 px-4 flex flex-col space-y-1">
+                <button onclick="router('home')" class="w-full text-left py-4 font-bold text-stone-600 hover:text-barnRed border-b border-stone-100 text-sm uppercase tracking-wider">HOME</button>
+                <button onclick="router('buy')" class="w-full text-left py-4 font-bold text-stone-600 hover:text-barnRed border-b border-stone-100 text-sm uppercase tracking-wider">BUY</button>
+                <button onclick="router('sell')" class="w-full text-left py-4 font-bold text-stone-600 hover:text-barnRed border-b border-stone-100 text-sm uppercase tracking-wider">SELL</button>
+                <button onclick="router('experts')" class="w-full text-left py-4 font-bold text-stone-600 hover:text-barnRed border-b border-stone-100 text-sm uppercase tracking-wider">OUR TEAM</button>
+                <button onclick="router('insights')" class="w-full text-left py-4 font-bold text-stone-600 hover:text-barnRed text-sm uppercase tracking-wider">MARKET INSIGHTS</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow">
+        
+        <!-- VIEW: HOME -->
+        <section id="view-home" class="view-section active animate__animated animate__fadeIn">
+            <!-- Hero -->
+            <div class="relative h-[700px] flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 z-0">
+                    <img src="https://raw.githubusercontent.com/cruiserein22/ff/main/1.png" class="w-full h-full object-cover" alt="Bundaberg Rural Property">
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60"></div>
+                </div>
+                <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-10">
+                    <h2 class="text-wheatGold font-bold tracking-[0.4em] uppercase mb-8 text-xs md:text-sm animate__animated animate__fadeInDown shadow-sm">Bundaberg & Wide Bay Region</h2>
+                    <h1 class="font-serif text-5xl md:text-8xl text-white font-bold mb-10 leading-tight drop-shadow-2xl animate__animated animate__fadeInUp">
+                        Acreage. Orchards.<br/><span class="italic text-wheatGold font-normal">Lifestyle.</span>
+                    </h1>
+                    <p class="text-white/90 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light animate__animated animate__fadeInUp animate__delay-1s">
+                        Connecting discerning buyers with premium rural assets across the Burnett region.
+                    </p>
+                    <div class="bg-white/95 p-3 rounded shadow-2xl max-w-3xl mx-auto flex flex-col md:flex-row gap-3 backdrop-blur-md animate__animated animate__fadeInUp animate__delay-1s">
+                        <input type="text" placeholder="Search by location, crop type, or acreage..." class="flex-1 px-6 py-4 bg-transparent outline-none text-lg text-stone-800 placeholder-stone-400 font-serif">
+                        <button onclick="router('buy')" class="bg-barnRed text-white px-10 py-4 font-bold uppercase tracking-widest hover:bg-red-800 transition-colors text-xs md:text-sm shadow-md whitespace-nowrap">
+                            View Listings
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Featured Preview -->
+            <div class="max-w-7xl mx-auto px-4 py-24">
+                <div class="text-center mb-20">
+                    <h3 class="font-serif text-4xl md:text-5xl font-bold text-stone-800 mb-6">Blue-Chip Opportunities</h3>
+                    <div class="w-24 h-1.5 bg-barnRed mx-auto"></div>
+                    <p class="text-stone-500 mt-8 max-w-2xl mx-auto text-lg leading-relaxed">
+                        From productive macadamia orchards to secluded lifestyle blocks, we present the finest rural real estate the Bundaberg region has to offer.
+                    </p>
+                </div>
+                <div id="home-featured-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <!-- Injected via JS -->
+                </div>
+                <div class="text-center mt-20">
+                    <button onclick="router('buy')" class="group relative px-12 py-4 font-bold uppercase tracking-[0.2em] text-stone-800 overflow-hidden border-2 border-stone-800 hover:text-white transition-colors">
+                        <span class="relative z-10">Browse All Properties</span>
+                        <div class="absolute inset-0 h-full w-full bg-stone-800 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: BUY -->
+        <section id="view-buy" class="view-section animate__animated animate__fadeIn">
+            <div class="bg-stone-100 border-b border-stone-200 py-16">
+                <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+                    <div>
+                        <h2 class="font-serif text-4xl font-bold text-stone-800 mb-2">Current Portfolio</h2>
+                        <p class="text-stone-500 text-sm uppercase tracking-wider">Showing <span id="count-display">6</span> Premium Listings</p>
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-3 mt-6 md:mt-0" id="buy-filters">
+                        <!-- Filters injected via JS -->
+                    </div>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <div id="buy-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                    <!-- Properties injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: SELL -->
+        <section id="view-sell" class="view-section animate__animated animate__fadeIn">
+            <div class="relative h-[600px]">
+                <!-- Using Image 8 for Soil/Land Context -->
+                <img src="https://raw.githubusercontent.com/cruiserein22/ff/main/8.png" class="w-full h-full object-cover grayscale contrast-125" alt="Bundaberg Red Soil">
+                <div class="absolute inset-0 bg-barnRed/90 mix-blend-multiply"></div>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                    <h2 class="font-serif text-5xl md:text-6xl text-white font-bold mb-8 shadow-lg">Maximize Your Return</h2>
+                    <p class="text-wheatGold text-xl md:text-2xl max-w-3xl leading-relaxed font-light">
+                        Specialists in red soil valuation, water allocation transfers, and strategic agribusiness sales.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto px-4 py-20 bg-white -mt-40 relative shadow-2xl rounded-sm z-10 border-t-8 border-wheatGold">
+                <div class="text-center mb-12">
+                    <h3 class="font-serif text-3xl font-bold text-stone-800 mb-4">Request a Confidential Appraisal</h3>
+                    <p class="text-stone-500">Get an accurate market assessment grounded in current sales data.</p>
+                </div>
+                
+                <form class="space-y-8" onsubmit="event.preventDefault(); alert('Thank you. Your request has been logged. Sarah will review it upon her return in January.');">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-wide text-stone-400">First Name</label>
+                            <input type="text" class="w-full px-4 py-4 bg-stone-50 border-b-2 border-stone-200 focus:border-barnRed outline-none transition-colors">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-wide text-stone-400">Last Name</label>
+                            <input type="text" class="w-full px-4 py-4 bg-stone-50 border-b-2 border-stone-200 focus:border-barnRed outline-none transition-colors">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase tracking-wide text-stone-400">Property Address</label>
+                        <input type="text" class="w-full px-4 py-4 bg-stone-50 border-b-2 border-stone-200 focus:border-barnRed outline-none transition-colors">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase tracking-wide text-stone-400">Property Details (Acreage, Water, Infrastructure)</label>
+                        <textarea rows="4" class="w-full px-4 py-4 bg-stone-50 border-b-2 border-stone-200 focus:border-barnRed outline-none transition-colors"></textarea>
+                    </div>
+                    <button class="w-full bg-stone-800 text-white py-5 font-bold uppercase tracking-[0.2em] hover:bg-barnRed transition-all shadow-lg mt-4 text-sm">
+                        Submit Request
+                    </button>
+                    <p class="text-sm text-center text-stone-400 italic mt-6 bg-stone-50 py-2 rounded">
+                        <span class="font-bold text-barnRed">*Note:</span> Sarah Jenkins will personally review all appraisal requests upon her return in January 2026.
+                    </p>
+                </form>
+            </div>
+        </section>
+
+        <!-- VIEW: EXPERTS -->
+        <section id="view-experts" class="view-section animate__animated animate__fadeIn">
+            <div class="max-w-7xl mx-auto px-4 py-24">
+                <div class="text-center mb-24">
+                    <h2 class="font-serif text-5xl md:text-6xl font-bold text-stone-800">The Local Authority</h2>
+                    <div class="w-24 h-1.5 bg-barnRed mx-auto mt-8 mb-8"></div>
+                    <p class="text-stone-500 text-lg max-w-2xl mx-auto">
+                        Family-owned and operated. We don't just sell the region; we live the lifestyle and work the land.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start max-w-5xl mx-auto">
+                    <!-- Sarah (Image 13) -->
+                    <div class="text-center group">
+                        <div class="relative inline-block mb-10">
+                            <div class="absolute inset-0 bg-wheatGold rounded-full transform translate-x-3 translate-y-3"></div>
+                            <!-- Recycled Image 13 for Sarah -->
+                            <img src="https://raw.githubusercontent.com/cruiserein22/ff/main/13.png" class="relative w-80 h-80 object-cover rounded-full border-8 border-white shadow-2xl z-10 grayscale group-hover:grayscale-0 transition-all duration-500" alt="Sarah Jenkins Principal Agent">
+                            <div class="absolute bottom-6 -right-4 z-20 bg-barnRed text-white text-xs font-bold px-5 py-2 rounded-full shadow-lg animate-pulse">
+                                ON LEAVE
+                            </div>
+                        </div>
+                        <h3 class="font-serif text-3xl font-bold text-stone-800">Sarah Jenkins</h3>
+                        <p class="text-wheatGold font-bold uppercase tracking-[0.2em] text-xs mb-6 mt-2">Principal / Licensee</p>
+                        <div class="bg-white p-8 shadow-sm border border-stone-100 rounded relative text-left">
+                            <div class="absolute -top-4 left-8 bg-white px-2 text-wheatGold text-5xl font-serif">"</div>
+                            <p class="text-stone-600 leading-relaxed italic mb-4">
+                                "My focus is currently on our newest family arrival. I will be returning to the desk on January 1st, 2026, ready to help you achieve your property goals."
+                            </p>
+                            <p class="text-stone-500 text-sm">
+                                With over 15 years in the Bundaberg market, Sarah is renowned for her integrity and negotiation skill.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Tom (Image 14) -->
+                    <div class="text-center group">
+                        <div class="relative inline-block mb-10">
+                            <div class="absolute inset-0 bg-stone-800 rounded-full transform translate-x-3 translate-y-3"></div>
+                            <!-- Recycled Image 14 for Tom -->
+                            <img src="https://raw.githubusercontent.com/cruiserein22/ff/main/14.png" class="relative w-80 h-80 object-cover rounded-full border-8 border-white shadow-2xl z-10 grayscale group-hover:grayscale-0 transition-all duration-500" alt="Tom Jenkins Sales Agent">
+                        </div>
+                        <h3 class="font-serif text-3xl font-bold text-stone-800">Tom Jenkins</h3>
+                        <p class="text-wheatGold font-bold uppercase tracking-[0.2em] text-xs mb-6 mt-2">Rural Sales & Water Specialist</p>
+                        <div class="bg-white p-8 shadow-sm border border-stone-100 rounded relative text-left">
+                            <div class="absolute -top-4 left-8 bg-white px-2 text-stone-800 text-5xl font-serif">"</div>
+                            <p class="text-stone-600 leading-relaxed">
+                                Born and bred on a South Kolan cane farm, Tom speaks the language of the land. He brings unmatched technical knowledge of irrigation schemes, soil types, and carrying capacities.
+                            </p>
+                            <p class="text-stone-500 text-sm mt-4 font-bold text-barnRed">
+                                Currently handling all urgent sales enquiries.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: INSIGHTS -->
+        <section id="view-insights" class="view-section animate__animated anim                    }
                 }
             }
         }
