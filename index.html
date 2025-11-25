@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PublicListings | Bundaberg Rural Rentals</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'bundy-green': '#2F5233',
+                        'bundy-light': '#E8F3E8',
+                        'cane-gold': '#D4A017',
+                        'earth': '#8B5A2B',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #fdfbf7;
+            background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #D4A017;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- NOTIFICATION BAR -->
+    <div class="bg-amber-100 border-b-2 border-amber-300 px-4 py-3 text-sm text-amber-900 text-center font-medium relative z-50">
+        <div class="max-w-6xl mx-auto flex items-start justify-center gap-2">
+            <i class="fa-solid fa-circle-info mt-0.5 text-amber-600"></i>
+            <span>
+                <strong>Holiday Notice:</strong> Sarah and Tom Jenkins are taking leave early this year. Sarah continues her maternity leave, and Tom will also be stepping back over the holidays. We will not be taking phone calls until <strong>1 January 2026</strong>, but Tom will still be checking email nightly at <a href="mailto:sarah@publiclisting.au" class="underline hover:text-amber-700">sarah@publiclisting.au</a>. Thank you for your understanding.
+            </span>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm shadow-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="app.navigate('home')">
+                    <i class="fa-solid fa-wheat-awn text-bundy-green text-3xl mr-3"></i>
+                    <div>
+                        <h1 class="font-serif text-2xl font-bold text-bundy-green leading-none">PublicListings</h1>
+                        <span class="text-xs text-earth tracking-wider uppercase font-semibold">Bundaberg Rural Rentals</span>
+                    </div>
+                </div>
+
+                <nav class="hidden md:flex space-x-8">
+                    <button onclick="app.navigate('home')" class="nav-link text-gray-600 hover:text-bundy-green font-medium transition">Home</button>
+                    <button onclick="app.navigate('rentals')" class="nav-link text-gray-600 hover:text-bundy-green font-medium transition">Available Rentals</button>
+                    <button onclick="app.navigate('application')" class="nav-link text-gray-600 hover:text-bundy-green font-medium transition">Apply to Rent</button>
+                    <button onclick="app.navigate('appraisal')" class="nav-link text-gray-600 hover:text-bundy-green font-medium transition">Landlord Appraisal</button>
+                    <button onclick="app.navigate('agents')" class="nav-link text-gray-600 hover:text-bundy-green font-medium transition">Our Agents</button>
+                    <button onclick="app.navigate('insights')" class="nav-link text-gray-600 hover:text-bundy-green font-medium transition">Local Insights</button>
+                </nav>
+
+                <div class="md:hidden flex items-center">
+                    <button onclick="app.toggleMobileMenu()" class="text-gray-600 hover:text-bundy-green focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="app.navigate('home'); app.toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-bundy-green hover:bg-gray-50">Home</button>
+                <button onclick="app.navigate('rentals'); app.toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-bundy-green hover:bg-gray-50">Rentals</button>
+                <button onclick="app.navigate('application'); app.toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-bundy-green hover:bg-gray-50">Apply</button>
+                <button onclick="app.navigate('appraisal'); app.toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-bundy-green hover:bg-gray-50">Appraisals</button>
+                <button onclick="app.navigate('agents'); app.toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-bundy-green hover:bg-gray-50">Agents</button>
+                <button onclick="app.navigate('insights'); app.toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-bundy-green hover:bg-gray-50">Insights</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main id="app" class="flex-grow w-full"></main>
+
+    <!-- FOOTER -->
+    <footer class="bg-bundy-green text-white py-12 mt-12 border-t-4 border-cane-gold">
+        <div class="max-w-7xl mx-auto px-4 text-center md:text-left md:flex justify-between items-start">
+            <div class="mb-8 md:mb-0">
+                <h3 class="font-serif text-xl font-bold mb-2">PublicListings</h3>
+                <p class="text-bundy-light text-sm max-w-xs">Serving Bundaberg's rural community with honesty and care. Specialists in acreage, farms, and homestead rentals.</p>
+            </div>
+            <div class="mb-8 md:mb-0">
+                <h4 class="font-bold mb-2 text-cane-gold">Contact</h4>
+                <p class="text-sm text-bundy-light mb-1"><i class="fa-solid fa-envelope mr-2"></i>sarah@publiclisting.au</p>
+                <p class="text-sm text-bundy-light"><i class="fa-solid fa-location-dot mr-2"></i>Bundaberg, QLD 4670</p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-2 text-cane-gold">Tenant Resources</h4>
+                <ul class="text-sm text-bundy-light space-y-1">
+                    <li><a href="#" onclick="app.navigate('application')" class="hover:text-white">Application Form</a></li>
+                    <li><a href="#" onclick="app.navigate('rentals')" class="hover:text-white">Current Listings</a></li>
+                    <li><a href="#" onclick="app.navigate('insights')" class="hover:text-white">Maintenance Tips</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 mt-8 pt-8 border-t border-white/20 text-center text-xs text-white/60">
+            &copy; 2025 PublicListings. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- MODAL -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div id="modal-content" class="bg-white rounded-lg shadow-2xl max-w-md w-full p-6 relative transform transition-all scale-95 opacity-0">
+        </div>
+    </div>
+
+    <script>
+        const getImage = (n) => {
+            const index = ((n - 1) % 14) + 1;
+            return `https://raw.githubusercontent.com/cruiserein22/ff/main/${index}.png`;
+        };
+
+        const RENTALS = [
+            { id: 1, title: "Spacious Cane Farm Cottage", address: "120 Moore Park Road, Gooburrum", price: 450, beds: 3, bath: 1, cars: 2, type: "Cottage", acres: 0.5, pets: true },
+            { id: 2, title: "High-set Queenslander on Acreage", address: "45 Childers Road, Branyan", price: 620, beds: 4, bath: 2, cars: 4, type: "Acreage", acres: 5, pets: true },
+            { id: 3, title: "Modern Coastal Brick Home", address: "12 See Street, Bargara", price: 580, beds: 3, bath: 2, cars: 2, type: "Coastal", acres: 0.1, pets: false },
+            { id: 4, title: "Secluded Farmhouse with Sheds", address: "88 Swept Road, Sharon", price: 500, beds: 3, bath: 1, cars: 6, type: "Farmhouse", acres: 10, pets: true },
+            { id: 5, title: "Town Centre Character Home", address: "14 Maryborough St, Bundaberg South", price: 420, beds: 2, bath: 1, cars: 1, type: "Town", acres: 0.1, pets: true },
+            { id: 6, title: "Riverfront Retreat", address: "202 Burnett Heads Rd, Burnett Heads", price: 650, beds: 3, bath: 2, cars: 2, type: "Coastal", acres: 0.5, pets: true },
+            { id: 7, title: "Large Family Acreage", address: "55 Elliott Heads Rd, Kepnock", price: 590, beds: 5, bath: 2, cars: 3, type: "Acreage", acres: 2.5, pets: true },
+            { id: 8, title: "Workers Cottage near Mill", address: "3 Bingera St, Bingera", price: 380, beds: 2, bath: 1, cars: 2, type: "Cottage", acres: 0.2, pets: false },
+        ];
+
+        const BLOG_POSTS = [
+            { id: 1, title: "Renting Acreage: The Realities", excerpt: "Living on land is a dream for many, but maintaining 5 acres in summer requires preparation. Here's what you need to know about ride-ons and slashers.", imageId: 9 },
+            { id: 2, title: "Understanding Bore Water Allocations", excerpt: "In rural Bundaberg, your water often comes from the ground. We explain pumps, pressure, and how to manage your tank levels effectively.", imageId: 10 },
+            { id: 3, title: "Septic Systems 101 for Tenants", excerpt: "If you've only lived in town, a septic system can be a mystery. Learn the dos and don'ts to keep the system healthy and odour-free.", imageId: 11 },
+            { id: 4, title: "Living Beside a Working Cane Farm", excerpt: "Harvest season brings dust, noise, and cane trains. It's part of the charm of our region, but here is how to live harmoniously with our farmers.", imageId: 12 },
+        ];
+
+        const app = {
+            currentView: 'home',
+            rentalFilter: 'All',
+
+            init: () => {
+                app.navigate('home');
+            },
+
+            toggleMobileMenu: () => {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            },
+
+            navigate: (view) => {
+                app.currentView = view;
+                window.scrollTo(0, 0);
+                
+                const container = document.getElementById('app');
+                container.innerHTML = '';
+                
+                let html = '';
+                
+                switch(view) {
+                    case 'home': html = app.renderHome(); break;
+                    case 'rentals': html = app.renderRentals(); break;
+                    case 'application': html = app.renderApplication(); break;
+                    case 'appraisal': html = app.renderAppraisal(); break;
+                    case 'agents': html = app.renderAgents(); break;
+                    case 'insights': html = app.renderInsights(); break;
+                    default: html = app.renderHome();
+                }
+
+                container.innerHTML = html;
+                
+                if (view === 'rentals') app.attachFilterListeners();
+                if (view === 'application') app.attachFormListener('rental-form');
+                if (view === 'appraisal') app.attachFormListener('appraisal-form');
+            },
+
+            renderHome: () => {
+                return `
+                    <div class="fade-in">
+                        <div class="relative w-full h-[500px] bg-gray-900">
+                            <img src="${getImage(1)}" class="w-full h-full object-cover opacity-60" alt="Bundaberg Rural Property">
+                            <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                                <h2 class="text-white font-serif text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">Home is where the paddock ends.</h2>
+                                <p class="text-white text-lg md:text-xl max-w-2xl drop-shadow-md mb-8">We connect great rural landlords with reliable tenants across the Bundaberg region. No sales, just dedicated rental management.</p>
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    <button onclick="app.navigate('rentals')" class="bg-bundy-green text-white px-8 py-3 rounded font-medium hover:bg-green-800 transition shadow-lg">View Rentals</button>
+                                    <button onclick="app.navigate('appraisal')" class="bg-white text-bundy-green px-8 py-3 rounded font-medium hover:bg-gray-100 transition shadow-lg">Landlord Appraisal</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <section class="max-w-5xl mx-auto px-4 py-16 text-center">
+                            <h3 class="text-3xl font-serif text-bundy-green font-bold mb-6">G'day, and welcome to PublicListings.</h3>
+                            <div class="prose prose-lg mx-auto text-gray-600">
+                                <p class="mb-4">We are a local, family-run agency specializing purely in rural and semi-rural rentals. Whether it's a cane-farm cottage, a high-set Queenslander, or a small homestead, we understand the unique lifestyle of the Bundaberg region.</p>
+                                <p class="mb-4">Because we don't sell houses, our focus is 100% on you—ensuring landlords get reliable tenants and tenants find a place they can truly call home.</p>
+                                <p class="font-medium text-amber-700 bg-amber-50 p-4 rounded-lg border border-amber-200 inline-block mt-4">
+                                    <i class="fa-solid fa-mug-hot mr-2"></i> 
+                                    Although Sarah and Tom are currently on leave, we are still checking emails nightly to ensure our tenants and owners are looked after.
+                                </p>
+                            </div>
+                        </section>
+
+                        <div class="bg-bundy-light py-16">
+                            <div class="max-w-7xl mx-auto px-4">
+                                <h3 class="text-2xl font-serif text-center text-bundy-green font-bold mb-10">We Specialize In</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                    <div class="bg-white p-6 rounded-lg shadow-sm text-center border-b-4 border-bundy-green">
+                                        <i class="fa-solid fa-tractor text-4xl text-earth mb-4"></i>
+                                        <h4 class="font-bold text-lg mb-2">Farm Cottages</h4>
+                                        <p class="text-sm text-gray-600">Cozy homes adjacent to working farms, perfect for quiet living.</p>
+                                    </div>
+                                    <div class="bg-white p-6 rounded-lg shadow-sm text-center border-b-4 border-bundy-green">
+                                        <i class="fa-solid fa-tree text-4xl text-earth mb-4"></i>
+                                        <h4 class="font-bold text-lg mb-2">Acreage Living</h4>
+                                        <p class="text-sm text-gray-600">Space to breathe, run a horse, or just enjoy the privacy.</p>
+                                    </div>
+                                    <div class="bg-white p-6 rounded-lg shadow-sm text-center border-b-4 border-bundy-green">
+                                        <i class="fa-solid fa-house-chimney text-4xl text-earth mb-4"></i>
+                                        <h4 class="font-bold text-lg mb-2">Queenslanders</h4>
+                                        <p class="text-sm text-gray-600">Classic timber homes with breezeways and wide verandahs.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            renderRentals: () => {
+                const filtered = app.rentalFilter === 'All' 
+                    ? RENTALS 
+                    : RENTALS.filter(r => r.type === app.rentalFilter);
+
+                return `
+                    <div class="fade-in max-w-7xl mx-auto px-4 py-12">
+                        <h2 class="text-3xl font-serif text-bundy-green font-bold mb-8 text-center">Available Rentals</h2>
+                        
+                        <div class="flex flex-wrap justify-center gap-2 mb-12">
+                            ${['All', 'Acreage', 'Farmhouse', 'Cottage', 'Town', 'Coastal'].map(cat => `
+                                <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition ${app.rentalFilter === cat ? 'bg-bundy-green text-white shadow-md' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'}" data-cat="${cat}">
+                                    ${cat}
+                                </button>
+                            `).join('')}
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            ${filtered.map((item, idx) => `
+                                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition border border-gray-100 group">
+                                    <div class="relative h-64 overflow-hidden">
+                                        <img src="${getImage(idx + 2)}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                        <div class="absolute top-4 left-4 bg-white/90 px-3 py-1 rounded-md text-sm font-bold text-bundy-green">
+                                            $${item.price} / week
+                                        </div>
+                                        <div class="absolute bottom-4 right-4 bg-bundy-green text-white text-xs px-2 py-1 rounded uppercase tracking-wide">
+                                            ${item.type}
+                                        </div>
+                                    </div>
+                                    <div class="p-6">
+                                        <h3 class="font-serif font-bold text-xl mb-2 text-gray-800">${item.title}</h3>
+                                        <p class="text-gray-500 text-sm mb-4"><i class="fa-solid fa-location-dot mr-1"></i> ${item.address}</p>
+                                        
+                                        <div class="flex justify-between items-center border-t border-gray-100 pt-4 text-sm text-gray-600">
+                                            <span><i class="fa-solid fa-bed mr-1"></i> ${item.beds} Bed</span>
+                                            <span><i class="fa-solid fa-bath mr-1"></i> ${item.bath} Bath</span>
+                                            <span><i class="fa-solid fa-car mr-1"></i> ${item.cars} Car</span>
+                                        </div>
+
+                                        <div class="mt-4 pt-3 border-t border-dashed border-gray-200 flex flex-wrap gap-2 text-xs">
+                                            ${item.acres ? `<span class="bg-bundy-light text-bundy-green px-2 py-1 rounded">${item.acres} Acres</span>` : ''}
+                                            ${item.pets ? `<span class="bg-green-50 text-green-700 px-2 py-1 rounded">Pets Allowed</span>` : `<span class="bg-red-50 text-red-700 px-2 py-1 rounded">No Pets</span>`}
+                                        </div>
+                                        
+                                        <button onclick="app.navigate('application')" class="w-full mt-6 bg-gray-800 text-white py-2 rounded hover:bg-bundy-green transition">Apply Now</button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        ${filtered.length === 0 ? '<div class="text-center text-gray-500 py-12">Sorry, no rentals found in this category right now.</div>' : ''}
+                    </div>
+                `;
+            },
+
+            renderApplication: () => {
+                return `
+                    <div class="fade-in max-w-2xl mx-auto px-4 py-12">
+                        <div class="bg-white rounded-xl shadow-lg p-8 border-t-4 border-bundy-green">
+                            <h2 class="text-2xl font-serif font-bold text-bundy-green mb-2">Rental Application</h2>
+                            <p class="text-gray-600 mb-8 text-sm">Please fill out your details below. Given the rural nature of our properties, details about pets and maintenance skills are appreciated.</p>
+                            
+                            <form id="rental-form" class="space-y-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                        <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                        <input type="tel" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                    <input type="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Current Address</label>
+                                    <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none">
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Employment Status</label>
+                                        <select class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none">
+                                            <option>Full Time</option>
+                                            <option>Part Time</option>
+                                            <option>Self Employed</option>
+                                            <option>Retired</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Weekly Income (Net)</label>
+                                        <input type="number" placeholder="$" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Pets &amp; Animals</label>
+                                    <textarea rows="2" placeholder="Do you have dogs, cats, horses or chickens? Please list breeds/numbers." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none"></textarea>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">References (Name &amp; Contact)</label>
+                                    <textarea rows="3" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none"></textarea>
+                                </div>
+
+                                <button type="submit" class="w-full bg-bundy-green text-white font-bold py-3 rounded-md hover:bg-green-800 transition shadow-md">Submit Application</button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+            },
+
+            renderAppraisal: () => {
+                return `
+                    <div class="fade-in max-w-3xl mx-auto px-4 py-12">
+                        <div class="text-center mb-10">
+                            <h2 class="text-3xl font-serif font-bold text-bundy-green mb-4">Landlord Rental Appraisal</h2>
+                            <p class="text-gray-600 max-w-2xl mx-auto">We understand that rural properties are different. Septic tanks, bore water allocations, boundary fencing, and tank maintenance require a property manager who knows country living. We treat your farm or acreage like our own.</p>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-lg p-8">
+                            <form id="appraisal-form" class="space-y-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Landlord Name</label>
+                                        <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                        <input type="tel" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none">
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                    <input type="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Rental Property Address</label>
+                                    <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none">
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Property Type</label>
+                                        <select class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none">
+                                            <option>Acreage</option>
+                                            <option>Farm Cottage</option>
+                                            <option>Town House</option>
+                                            <option>Coastal Property</option>
+                                            <option>Queenslander</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Expected Rent (Weekly)</label>
+                                        <input type="text" placeholder="$" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Additional Notes (Sheds, Water, etc.)</label>
+                                    <textarea rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-bundy-green focus:border-bundy-green outline-none"></textarea>
+                                </div>
+
+                                <button type="submit" class="w-full bg-cane-gold text-white font-bold py-3 rounded-md hover:bg-yellow-600 transition shadow-md">Request Free Appraisal</button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+            },
+
+            renderAgents: () => {
+                return `
+                    <div class="fade-in max-w-5xl mx-auto px-4 py-12">
+                        <div class="text-center mb-12">
+                            <h2 class="text-3xl font-serif font-bold text-bundy-green mb-4">Meet The Team</h2>
+                            <p class="text-gray-600">PublicListings is a husband-and-wife team dedicated to the Bundaberg region.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                            <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                                <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-bundy-light">
+                                    <img src="${getImage(5)}" alt="Sarah Jenkins" class="w-full h-full object-cover">
+                                </div>
+                                <h3 class="text-2xl font-serif font-bold text-gray-800">Sarah Jenkins</h3>
+                                <p class="text-bundy-green font-medium mb-4">Co-Founder &amp; Senior Property Manager</p>
+                                <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                                    Sarah grew up on a cane farm in Sharon and knows exactly what rural landlords need. She prides herself on clear communication and finding tenants who respect the land.
+                                </p>
+                                <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg text-sm text-amber-800">
+                                    <i class="fa-solid fa-baby-carriage mr-2"></i>
+                                    <strong>Status:</strong> Currently on Maternity Leave until 2026.
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                                <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-bundy-light">
+                                    <img src="${getImage(8)}" alt="Tom Jenkins" class="w-full h-full object-cover">
+                                </div>
+                                <h3 class="text-2xl font-serif font-bold text-gray-800">Tom Jenkins</h3>
+                                <p class="text-bundy-green font-medium mb-4">Co-Founder &amp; Maintenance Lead</p>
+                                <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                                    Tom handles the operational side of the rentals. With a background in trades, he's excellent at troubleshooting pump issues and fencing repairs before calling in the contractors.
+                                </p>
+                                <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg text-sm text-amber-800">
+                                    <i class="fa-solid fa-umbrella-beach mr-2"></i>
+                                    <strong>Status:</strong> Taking early leave. Checking emails nightly.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            renderInsights: () => {
+                return `
+                    <div class="fade-in max-w-6xl mx-auto px-4 py-12">
+                        <h2 class="text-3xl font-serif font-bold text-bundy-green mb-4 text-center">Local Rural Insights</h2>
+                        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Living out of town is a different pace of life. Here are some tips for tenants and owners in the Wide Bay region.</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            ${BLOG_POSTS.map(post => `
+                                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition flex flex-col md:flex-row h-full">
+                                    <div class="md:w-1/3 h-48 md:h-auto">
+                                        <img src="${getImage(post.imageId)}" class="w-full h-full object-cover" alt="Blog Image">
+                                    </div>
+                                    <div class="p-6 md:w-2/3 flex flex-col justify-center">
+                                        <h3 class="font-serif font-bold text-xl mb-2 text-gray-800">${post.title}</h3>
+                                        <p class="text-sm text-gray-600 mb-4 line-clamp-3">${post.excerpt}</p>
+                                        <button class="text-bundy-green font-bold text-sm uppercase tracking-wide hover:underline text-left">Read Article <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            },
+
+            attachFilterListeners: () => {
+                const buttons = document.querySelectorAll('.filter-btn');
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        app.rentalFilter = e.target.dataset.cat;
+                        app.navigate('rentals');
+                    });
+                });
+            },
+
+            attachFormListener: (formId) => {
+                const form = document.getElementById(formId);
+                if(form) {
+                    form.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        app.showModal(`
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fa-solid fa-check text-3xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-serif font-bold text-gray-800 mb-2">Thank You!</h3>
+                                <p class="text-gray-600 mb-6">We have received your details. Tom is checking emails nightly and will get back to you as soon as possible.</p>
+                                <button onclick="app.closeModal(); app.navigate('home')" class="bg-bundy-green text-white px-6 py-2 rounded hover:bg-green-800 transition">Return Home</button>
+                            </div>
+                        `);
+                    });
+                }
+            },
+
+            showModal: (content) => {
+                const overlay = document.getElementById('modal-overlay');
+                const modalContent = document.getElementById('modal-content');
+                modalContent.innerHTML = content;
+                
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    modalContent.classList.remove('scale-95', 'opacity-0');
+                    modalContent.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            },
+
+            closeModal: () => {
+                const overlay = document.getElementById('modal-overlay');
+                const modalContent = document.getElementById('modal-content');
+                
+                modalContent.classList.remove('scale-100', 'opacity-100');
+                modalContent.classList.add('scale-95', 'opacity-0');
+                
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 300);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            app.init();
+        });
+    </script>
+</body>
+</html>
