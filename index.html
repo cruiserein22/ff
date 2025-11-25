@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PublicListings | Bundaberg Real Estate</title>
+    
+    <!-- Tailwind CSS (Standalone) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&display=swap" rel="stylesheet">
+
+    <!-- Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        barnRed: '#b01e1e',
+                        wheatGold: '#cc9f3f',
+                        parchment: '#fcfbf7',
+                        soil: '#5c4d3c',
+                        darkWood: '#2c241b'
+                    },
+                    fontFamily: {
+                        serif: ['Merriweather', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'paper-texture': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #fcfbf7; }
+        /* Simple utility for hiding views */
+        .view-section { display: none; animation-duration: 0.5s; }
+        .view-section.active { display: block; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #fcfbf7; }
+        ::-webkit-scrollbar-thumb { background: #cc9f3f; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b01e1e; }
+    </style>
+</head>
+<body class="font-sans text-darkWood bg-paper-texture antialiased flex flex-col min-h-screen">
+
+    <!-- MATERNITY BANNER -->
+    <div class="bg-wheatGold text-soil px-4 py-3 text-center font-serif text-sm md:text-base border-b-4 border-barnRed relative z-50 shadow-md">
+        <span class="font-bold mr-2">🔔 IMPORTANT:</span>
+        Sarah Jenkins is on maternity leave (Nov 13 - Jan 1). 
+        <span class="hidden md:inline"> Phone lines are paused. Emails checked nightly.</span>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="sticky top-0 z-40 bg-parchment/95 border-b border-stone-200 backdrop-blur-sm shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer group" onclick="router('home')">
+                    <div class="w-10 h-10 bg-barnRed rounded-sm flex items-center justify-center text-white font-serif text-xl mr-3 shadow-sm group-hover:bg-red-800 transition-colors">P</div>
+                    <div>
+                        <h1 class="font-serif text-2xl font-bold text-barnRed leading-none">PublicListings</h1>
+                        <p class="text-[10px] text-stone-500 tracking-[0.2em] uppercase font-semibold mt-1">Bundaberg Rural</p>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8" id="desktop-menu">
+                    <button onclick="router('home')" class="nav-link text-sm uppercase tracking-wider font-bold text-barnRed border-b-2 border-barnRed">Home</button>
+                    <button onclick="router('buy')" class="nav-link text-sm uppercase tracking-wider font-semibold text-stone-600 hover:text-barnRed transition-colors">Buy</button>
+                    <button onclick="router('sell')" class="nav-link text-sm uppercase tracking-wider font-semibold text-stone-600 hover:text-barnRed transition-colors">Sell</button>
+                    <button onclick="router('experts')" class="nav-link text-sm uppercase tracking-wider font-semibold text-stone-600 hover:text-barnRed transition-colors">Experts</button>
+                    <button onclick="router('insights')" class="nav-link text-sm uppercase tracking-wider font-semibold text-stone-600 hover:text-barnRed transition-colors">Insights</button>
+                    <button onclick="openModal()" class="bg-barnRed text-white px-6 py-2 rounded-sm uppercase text-xs font-bold tracking-widest hover:bg-red-800 transition-all shadow-sm transform hover:-translate-y-0.5">
+                        Contact
+                    </button>
+                </div>
+
+                <!-- Mobile Hamburger -->
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-stone-600 p-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-200 absolute w-full shadow-xl">
+            <div class="pt-2 pb-4 px-4 flex flex-col space-y-1">
+                <button onclick="router('home')" class="w-full text-left py-3 font-bold text-stone-600 hover:text-barnRed border-b border-stone-100">HOME</button>
+                <button onclick="router('buy')" class="w-full text-left py-3 font-bold text-stone-600 hover:text-barnRed border-b border-stone-100">BUY</button>
+                <button onclick="router('sell')" class="w-full text-left py-3 font-bold text-stone-600 hover:text-barnRed border-b border-stone-100">SELL</button>
+                <button onclick="router('experts')" class="w-full text-left py-3 font-bold text-stone-600 hover:text-barnRed border-b border-stone-100">EXPERTS</button>
+                <button onclick="router('insights')" class="w-full text-left py-3 font-bold text-stone-600 hover:text-barnRed">INSIGHTS</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow">
+        
+        <!-- VIEW: HOME -->
+        <section id="view-home" class="view-section active animate__animated animate__fadeIn">
+            <!-- Hero -->
+            <div class="relative h-[650px] flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 z-0">
+                    <img src="https://raw.githubusercontent.com/cruiserein22/ff/main/1.png" class="w-full h-full object-cover" alt="Bundaberg Farm">
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
+                </div>
+                <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+                    <h2 class="text-wheatGold font-bold tracking-[0.3em] uppercase mb-6 text-sm md:text-base animate__animated animate__fadeInDown">Bundaberg & Wide Bay</h2>
+                    <h1 class="font-serif text-4xl md:text-7xl text-white font-bold mb-8 leading-tight shadow-black drop-shadow-lg animate__animated animate__fadeInUp">
+                        Real Estate for the <br/><span class="italic text-wheatGold">Rural Lifestyle.</span>
+                    </h1>
+                    <div class="bg-white/95 p-3 rounded shadow-2xl max-w-3xl mx-auto flex flex-col md:flex-row gap-3 backdrop-blur-md animate__animated animate__fadeInUp animate__delay-1s">
+                        <input type="text" placeholder="Search suburbs, soil types, acreage..." class="flex-1 px-6 py-4 bg-transparent outline-none text-lg text-stone-800 placeholder-stone-400 font-serif">
+                        <button onclick="router('buy')" class="bg-barnRed text-white px-10 py-4 font-bold uppercase tracking-widest hover:bg-red-800 transition-colors text-sm shadow-md">
+                            Find Property
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Featured Preview -->
+            <div class="max-w-7xl mx-auto px-4 py-24">
+                <div class="text-center mb-16">
+                    <h3 class="font-serif text-4xl font-bold text-stone-800 mb-4">Market Highlights</h3>
+                    <div class="w-24 h-1 bg-barnRed mx-auto"></div>
+                    <p class="text-stone-500 mt-6 max-w-2xl mx-auto text-lg">Handpicked acreage, orchards, and lifestyle blocks representing the best value in the Burnett region.</p>
+                </div>
+                <div id="home-featured-grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <!-- Injected via JS -->
+                </div>
+                <div class="text-center mt-16">
+                    <button onclick="router('buy')" class="border-2 border-stone-800 text-stone-800 px-10 py-3 uppercase tracking-widest font-bold hover:bg-stone-800 hover:text-white transition-all">
+                        View All Listings
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: BUY -->
+        <section id="view-buy" class="view-section animate__animated animate__fadeIn">
+            <div class="bg-stone-100 border-b border-stone-200 py-12">
+                <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+                    <h2 class="font-serif text-4xl font-bold text-stone-800 mb-6 md:mb-0">Current Listings</h2>
+                    <div class="flex flex-wrap justify-center gap-3" id="buy-filters">
+                        <!-- Filters injected via JS -->
+                    </div>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <div id="buy-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Properties injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: SELL -->
+        <section id="view-sell" class="view-section animate__animated animate__fadeIn">
+            <div class="relative h-[500px]">
+                <img src="https://raw.githubusercontent.com/cruiserein22/ff/main/8.png" class="w-full h-full object-cover grayscale contrast-125" alt="Soil">
+                <div class="absolute inset-0 bg-barnRed/90 mix-blend-multiply"></div>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                    <h2 class="font-serif text-5xl text-white font-bold mb-6">We Know Red Soil Value</h2>
+                    <p class="text-wheatGold text-xl max-w-3xl leading-relaxed font-light">Specializing in water allocation transfers, cane farm valuations, and getting the best price for your patch of earth.</p>
+                </div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto px-4 py-16 bg-white -mt-32 relative shadow-2xl rounded-sm z-10 border-t-8 border-wheatGold">
+                <h3 class="font-serif text-3xl font-bold text-stone-800 mb-8 text-center">Request a Valuation</h3>
+                <form class="space-y-6" onsubmit="event.preventDefault(); alert('Thank you. Sarah will be in touch after Jan 1st.');">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-wide text-stone-400">First Name</label>
+                            <input type="text" class="w-full px-4 py-3 bg-stone-50 border-b-2 border-stone-200 focus:border-barnRed outline-none transition-colors">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-wide text-stone-400">Last Name</label>
+                            <input type="text" class="w-full px-4 py-3 bg-stone-50 border-b-2 border-stone-200 focus:border-barnRed outline-none transition-colors">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase tracking-wide text-stone-400">Property Address</label>
+                        <input type="text" class="w-full px-4 py-3 bg-stone-50 border-b-2 border-stone-200 focus:border-barnRed outline-none transition-colors">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold uppercase tracking-wide text-stone-400">Details (Crops, Water, Improvements)</label>
+                        <textarea rows="4" class="w-full px-4 py-3 bg-stone-50 border-b-2 border-stone-200 focus:border-barnRed outline-none transition-colors"></textarea>
+                    </div>
+                    <button class="w-full bg-stone-800 text-white py-5 font-bold uppercase tracking-[0.2em] hover:bg-barnRed transition-all shadow-lg mt-4">
+                        Send Request
+                    </button>
+                    <p class="text-sm text-center text-stone-400 italic mt-4">Note: Sarah will review all requests personally upon her return in Jan.</p>
+                </form>
+            </div>
+        </section>
+
+        <!-- VIEW: EXPERTS -->
+        <section id="view-experts" class="view-section animate__animated animate__fadeIn">
+            <div class="max-w-7xl mx-auto px-4 py-20">
+                <div class="text-center mb-20">
+                    <h2 class="font-serif text-5xl font-bold text-stone-800">The Locals</h2>
+                    <div class="w-24 h-1 bg-barnRed mx-auto mt-6 mb-6"></div>
+                    <p class="text-stone-500 text-lg">Family owned. Deep roots in the Burnett region. We don't just sell farms; we live on them.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-start max-w-5xl mx-auto">
+                    <!-- Sarah -->
+                    <div class="text-center group">
+                        <div class="relative inline-block mb-8">
+                            <div class="absolute inset-0 bg-wheatGold rounded-full transform translate-x-2 translate-y-2"></div>
+                            <img src="https://raw.githubusercontent.com/cruiserein22/ff/main/20.png" class="relative w-72 h-72 object-cover rounded-full border-8 border-white shadow-xl z-10 grayscale group-hover:grayscale-0 transition-all duration-500" alt="Sarah Jenkins">
+                            <div class="absolute bottom-4 -right-4 z-20 bg-barnRed text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg animate-bounce">
+                                ON LEAVE
+                            </div>
+                        </div>
+                        <h3 class="font-serif text-3xl font-bold text-stone-800">Sarah Jenkins</h3>
+                        <p class="text-wheatGold font-bold uppercase tracking-widest text-sm mb-6 mt-2">Principal Agent</p>
+                        <div class="bg-white p-6 shadow-sm border border-stone-100 rounded relative">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white px-2 text-stone-300 text-4xl font-serif">"</div>
+                            <p class="text-stone-600 leading-relaxed italic">
+                                Currently focusing on the newest addition to our family! I will be back on deck January 1st, 2026. For urgent matters, Tom is holding the fort.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Tom -->
+                    <div class="text-center group">
+                        <div class="relative inline-block mb-8">
+                            <div class="absolute inset-0 bg-stone-800 rounded-full transform translate-x-2 translate-y-2"></div>
+                            <img src="https://raw.githubusercontent.com/cruiserein22/ff/main/21.png" class="relative w-72 h-72 object-cover rounded-full border-8 border-white shadow-xl z-10 grayscale group-hover:grayscale-0 transition-all duration-500" alt="Tom Jenkins">
+                        </div>
+                        <h3 class="font-serif text-3xl font-bold text-stone-800">Tom Jenkins</h3>
+                        <p class="text-wheatGold font-bold uppercase tracking-widest text-sm mb-6 mt-2">Rural Sales & Water Specialist</p>
+                        <div class="bg-white p-6 shadow-sm border border-stone-100 rounded relative">
+                            <p class="text-stone-600 leading-relaxed">
+                                Born on a cane farm in South Kolan, Tom understands water allocations better than anyone in the district. He handles the heavy lifting, the quad bike inspections, and the negotiation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: INSIGHTS -->
+        <section id="view-insights" class="view-section animate__animated animate__fadeIn">
+            <div class="max-w-4xl mx-auto px-4 py-20">
+                <div class="flex items-center mb-16">
+                    <div class="w-2 h-16 bg-barnRed mr-6"></div>
+                    <div>
+                        <h2 class="font-serif text-4xl font-bold text-stone-800">Market Insights</h2>
+                        <p class="text-stone-500 mt-1">News from the paddock.</p>
+                    </div>
+                </div>
+                <div id="insights-list" class="space-y-12">
+                    <!-- Blogs injected via JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#1a1814] text-stone-400 py-16 border-t-8 border-wheatGold">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12 text-sm leading-relaxed">
+            <div>
+                <div class="flex items-center mb-6">
+                    <div class="w-8 h-8 bg-barnRed flex items-center justify-center text-white font-serif text-lg mr-2 rounded-sm">P</div>
+                    <h4 class="font-serif text-white text-2xl font-bold">PublicListings</h4>
+                </div>
+                <p class="mb-4">Boutique rural specialists for Bundaberg & Wide Bay. Honest advice, red soil expertise, and local knowledge.</p>
+            </div>
+            <div>
+                <h4 class="font-serif text-white text-lg mb-6 font-bold uppercase tracking-widest">Contact</h4>
+                <p class="flex items-center mb-3"><span class="w-6">📞</span> 0400 123 456 (Tom)</p>
+                <p class="flex items-center mb-3"><span class="w-6">✉️</span> hello@publiclistings.com.au</p>
+                <div class="mt-6 p-4 bg-stone-800 rounded border-l-2 border-wheatGold">
+                    <p class="text-wheatGold text-xs font-bold uppercase mb-1">Status Update</p>
+                    <p>Sarah is on leave until Jan 1. Please direct urgent sales enquiries to Tom.</p>
+                </div>
+            </div>
+            <div class="text-right flex flex-col justify-end">
+                <p>&copy; 2025 PublicListings Real Estate.</p>
+                <p class="mt-2 text-stone-600">Bundaberg, Queensland, Australia.</p>
+                <p class="mt-1 text-stone-600 text-xs">Built with Vanilla JS.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INQUIRY MODAL -->
+    <div id="contact-modal" class="fixed inset-0 z-[60] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-full max-w-md p-8 shadow-2xl rounded-sm animate__animated animate__zoomIn">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-serif text-2xl font-bold text-stone-800">Quick Inquiry</h3>
+                <button onclick="closeModal()" class="text-stone-400 hover:text-barnRed text-2xl">&times;</button>
+            </div>
+            <p class="text-sm text-stone-500 mb-6">Send a message to Tom (Sales) or leave a note for Sarah (Admin).</p>
+            <textarea class="w-full border border-stone-300 p-3 rounded-sm h-32 mb-4 focus:border-barnRed outline-none" placeholder="How can we help?"></textarea>
+            <button class="w-full bg-barnRed text-white py-3 font-bold uppercase tracking-wider hover:bg-red-800" onclick="closeModal(); alert('Message Sent!')">Send Message</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- DATA ---
+        const PROPERTIES = [
+            { id: 1, title: "The Old Cane Homestead", price: "$850,000", type: "Farm", acres: 45, img: 2, address: "12 Bundaberg Rd", features: ["Red Soil", "Creek Frontage"] },
+            { id: 2, title: "Avocado Heights", price: "$1,200,000", type: "Orchard", acres: 120, img: 3, address: "88 Ridge Lane", features: ["Mature Trees", "Water Alloc"] },
+            { id: 3, title: "Coastal Scrub Retreat", price: "$620,000", type: "Coastal", acres: 5, img: 4, address: "44 Bargara Coast", features: ["Secluded", "Power Connected"] },
+            { id: 4, title: "Macadamia Prime", price: "$2,100,000", type: "Orchard", acres: 200, img: 5, address: "Gin Gin Highway", features: ["Processing Shed", "Irrigation"] },
+            { id: 5, title: "Cattleman's Run", price: "$950,000", type: "Acreage", acres: 300, img: 6, address: "South Kolan", features: ["Fenced", "Dams"] },
+            { id: 6, title: "Riverview Block", price: "$450,000", type: "Acreage", acres: 12, img: 7, address: "Burnett River Dr", features: ["Flood Free", "Jetty"] },
+        ];
+
+        const INSIGHTS = [
+            { id: 1, title: "Why Red Soil Matters for Macadamias", date: "Nov 10, 2025", img: 10, excerpt: "The volcanic soil of Bundaberg is the secret weapon for yield..." },
+            { id: 2, title: "Water Allocations: A 2026 Forecast", date: "Nov 02, 2025", img: 11, excerpt: "Understanding the Paradise Dam restoration timeline is critical for investors..." },
+            { id: 3, title: "Moving from City to Scrub", date: "Oct 28, 2025", img: 12, excerpt: "What to expect when you trade a latte for a ride-on mower..." },
+        ];
+
+        // --- HELPERS ---
+        const getImage = (id) => `https://raw.githubusercontent.com/cruiserein22/ff/main/${id}.png`;
+
+        // --- RENDERING FUNCTIONS ---
+        
+        function renderPropertyCard(prop) {
+            return `
+                <div class="group bg-white rounded-sm shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-stone-100 flex flex-col h-full animate__animated animate__fadeInUp">
+                    <div class="relative h-72 overflow-hidden">
+                        <div class="absolute top-3 left-3 bg-wheatGold text-white text-xs font-bold px-3 py-1 rounded-full z-10 uppercase tracking-wide shadow-sm shadow-black/20">
+                            ${prop.type}
+                        </div>
+                        <img src="${getImage(prop.img)}" alt="${prop.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-5 pt-16">
+                             <p class="text-white font-bold text-xl tracking-wide">${prop.price}</p>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <h3 class="font-serif text-xl font-bold text-stone-800 mb-2 group-hover:text-barnRed transition-colors">${prop.title}</h3>
+                        <div class="flex items-center text-stone-500 text-sm mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                            <span>${prop.address}</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            ${prop.features.map(f => `<span class="bg-stone-100 text-stone-600 text-[10px] font-bold uppercase px-2 py-1 rounded-sm tracking-wide">${f}</span>`).join('')}
+                        </div>
+                        <div class="mt-auto flex justify-between items-center border-t border-stone-100 pt-4">
+                            <span class="font-bold text-barnRed text-sm flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                                ${prop.acres} Acres
+                            </span>
+                            <button onclick="openModal()" class="text-stone-400 hover:text-barnRed text-xs font-bold uppercase tracking-widest">View Details &rarr;</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderInsightCard(post) {
+            return `
+                <div class="flex flex-col md:flex-row gap-8 bg-white p-0 md:p-6 shadow-sm hover:shadow-lg transition-shadow border border-stone-100 group">
+                    <div class="w-full md:w-1/3 h-56 md:h-48 flex-shrink-0 overflow-hidden">
+                        <img src="${getImage(post.img)}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="${post.title}">
+                    </div>
+                    <div class="flex flex-col justify-center p-6 md:p-0">
+                        <p class="text-xs text-wheatGold font-bold uppercase tracking-widest mb-3">${post.date}</p>
+                        <h3 class="font-serif text-2xl font-bold text-stone-800 mb-3 group-hover:text-barnRed transition-colors">${post.title}</h3>
+                        <p class="text-stone-600 mb-5 leading-relaxed text-sm">${post.excerpt}</p>
+                        <button onclick="openModal()" class="text-stone-800 font-bold text-xs uppercase tracking-widest self-start border-b-2 border-barnRed pb-1 hover:bg-barnRed hover:text-white transition-all">Read Full Article</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- INIT & ROUTER ---
+
+        function router(viewName) {
+            // 1. Hide all sections
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.style.display = 'none';
+                el.classList.remove('active');
+            });
+            
+            // 2. Show target section
+            const target = document.getElementById(`view-${viewName}`);
+            if (target) {
+                target.style.display = 'block';
+                // Small timeout to trigger animation restart if needed
+                setTimeout(() => target.classList.add('active'), 10);
+                window.scrollTo(0, 0);
+            }
+
+            // 3. Update Nav States
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('text-barnRed', 'border-b-2', 'border-barnRed', 'font-bold');
+                link.classList.add('text-stone-600', 'font-semibold');
+                if (link.textContent.toLowerCase() === viewName) {
+                    link.classList.add('text-barnRed', 'border-b-2', 'border-barnRed', 'font-bold');
+                    link.classList.remove('text-stone-600', 'font-semibold');
+                }
+            });
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        // --- FILTER LOGIC ---
+        
+        let currentFilter = 'All';
+        function setFilter(type) {
+            currentFilter = type;
+            renderBuyGrid();
+            renderFilters();
+        }
+
+        function renderFilters() {
+            const filters = ['All', 'Farm', 'Orchard', 'Coastal', 'Acreage'];
+            const container = document.getElementById('buy-filters');
+            container.innerHTML = filters.map(f => `
+                <button onclick="setFilter('${f}')" 
+                    class="px-5 py-2 rounded-sm text-xs font-bold uppercase tracking-wider transition-all ${currentFilter === f ? 'bg-barnRed text-white shadow-md' : 'bg-white text-stone-600 border border-stone-300 hover:border-barnRed'}">
+                    ${f}
+                </button>
+            `).join('');
+        }
+
+        function renderBuyGrid() {
+            const container = document.getElementById('buy-grid');
+            const filtered = currentFilter === 'All' ? PROPERTIES : PROPERTIES.filter(p => p.type === currentFilter);
+            container.innerHTML = filtered.map(renderPropertyCard).join('');
+        }
+
+        // --- BOOTSTRAP ---
+
+        // Render Static Content
+        document.getElementById('home-featured-grid').innerHTML = PROPERTIES.slice(0, 3).map(renderPropertyCard).join('');
+        document.getElementById('insights-list').innerHTML = INSIGHTS.map(renderInsightCard).join('');
+        renderFilters();
+        renderBuyGrid();
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // Modal Logic
+        function openModal() {
+            document.getElementById('contact-modal').classList.remove('hidden');
+        }
+        function closeModal() {
+            document.getElementById('contact-modal').classList.add('hidden');
+        }
+
+        // Start at Home
+        router('home');
+
+    </script>
+</body>
+</html>
