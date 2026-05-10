@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROPE_DIR="/workspace/Rope"
+ROPE_DIR="/home/user/Rope"
 ASSETS_DIR="/tmp/rope-assets"
 
 echo "[1/6] Checking Rope dir..."
